@@ -40,3 +40,13 @@ struct TreeNode
     struct TreeNode* right;  // Pointer to the right child
 
 };
+
+
+
+
+// Struct definition for the hash table
+struct HashTable
+{
+    TreeNode* buckets[hashtableSize]; // Array of pointers to the root nodes of BSTs
+
+};
