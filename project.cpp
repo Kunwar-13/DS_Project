@@ -60,6 +60,9 @@ Parcel* findParcelByWeight(TreeNode* rootNode, int weight);
 void releaseHashTableMemory(HashTable* hashTable);
 void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxParcel);
 void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, Parcel** heaviestParcel);
+void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuation);
+
+
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -222,4 +225,17 @@ void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, 
 
     findLightestAndHeaviestParcel(rootNode->left, lightestParcel, heaviestParcel);
     findLightestAndHeaviestParcel(rootNode->right, lightestParcel, heaviestParcel);
+}
+
+// Helper function to calculate total weight and valuation in a binary search tree
+void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuation)
+{
+    if (currentNode != NULL)
+    {
+        *totalWeight += currentNode->parcel.weight;
+        *totalValuation += currentNode->parcel.valuation;
+
+        calculateTotal(currentNode->left, totalWeight, totalValuation);
+        calculateTotal(currentNode->right, totalWeight, totalValuation);
+    }
 }
