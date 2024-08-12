@@ -52,6 +52,7 @@ struct HashTable
 
 // Function prototypes
 HashTable * initializeHashTable();
+void loadParcelsFromFile(HashTable* hashTable, const char* filename);
 
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
@@ -74,4 +75,35 @@ HashTable* initializeHashTable()
     
     return hashTable;
 
+}
+
+
+
+/* Loads parcel data from a file and inserts it into the hash table */
+void loadParcelsFromFile(HashTable* hashTable, const char* filename)
+{
+
+    FILE* file = fopen(filename, "r");
+    if (!file)
+    {
+        fprintf(stderr, "Failed to open file %s\n", filename);
+
+        exit(1);
+    }
+
+    char destination[100];
+    int weight;
+    float valuation;
+
+    while (fscanf(file, "%[^,], %d, %f\n", destination, &weight, &valuation) == 3)
+    {
+        Parcel parcel;
+
+        parcel.destination = strdup(destination);
+        parcel.weight = weight;
+
+        parcel.valuation = valuation;
+        addParcelToHashTable(hashTable, parcel);
+    }
+    fclose(file);
 }
