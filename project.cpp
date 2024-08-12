@@ -16,6 +16,7 @@
  // Disable specific compiler warnings
 #pragma warning(disable : 4996)
 
+
 // Define the hash table size
 #define hashtableSize 127
 
@@ -27,5 +28,15 @@ struct Parcel
     char* destination; // Destination country name
     int weight;        // Weight of the parcel in grams
     float valuation;   // Valuation of the parcel in dollars
+
+};
+
+
+// Struct definition for the binary search tree node
+struct TreeNode
+{
+    Parcel parcel;           // Parcel data
+    struct TreeNode* left;   // Pointer to the left child
+    struct TreeNode* right;  // Pointer to the right child
 
 };
