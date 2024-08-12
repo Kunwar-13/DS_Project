@@ -58,7 +58,7 @@ void showTotalLoadAndValuation(HashTable* hashTable, char* country);
 void displayParcelInfo(Parcel* parcel);
 Parcel* findParcelByWeight(TreeNode* rootNode, int weight);
 void releaseHashTableMemory(HashTable* hashTable);
-
+void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxParcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -184,4 +184,23 @@ void releaseHashTableMemory(HashTable* hashTable)
         releaseTreeMemory(hashTable->buckets[i]);
     }
     free(hashTable);
+}
+
+// Finds the minimum and maximum valuation parcels in a binary search tree
+void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxParcel)
+{
+    if (rootNode == NULL) return;
+
+    if (*minParcel == NULL || rootNode->parcel.valuation < (*minParcel)->valuation)
+    {
+        *minParcel = &(rootNode->parcel);
+    }
+    if (*maxParcel == NULL || rootNode->parcel.valuation > (*maxParcel)->valuation)
+    {
+        *maxParcel = &(rootNode->parcel);
+    }
+
+    findMinAndMaxParcel(rootNode->left, minParcel, maxParcel);
+    findMinAndMaxParcel(rootNode->right, minParcel, maxParcel);
+
 }
