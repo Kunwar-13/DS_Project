@@ -61,7 +61,7 @@ void releaseHashTableMemory(HashTable* hashTable);
 void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxParcel);
 void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, Parcel** heaviestParcel);
 void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuation);
-
+unsigned long hashFunction(char* str);
 
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
@@ -238,4 +238,16 @@ void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuati
         calculateTotal(currentNode->left, totalWeight, totalValuation);
         calculateTotal(currentNode->right, totalWeight, totalValuation);
     }
+}
+
+// Hash function: Generates a hash value for a given string using the djb2 algorithm
+unsigned long hashFunction(char* str)
+{
+    unsigned long hash = 5381;
+    int c;
+
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c; // hash * 33 + c
+
+    return hash % hashtableSize;
 }
