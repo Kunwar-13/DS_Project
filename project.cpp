@@ -64,6 +64,7 @@ void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuati
 unsigned long hashFunction(char* str);
 TreeNode* createNewTreeNode(Parcel parcel);
 TreeNode* insertTreeNode(TreeNode* rootNode, Parcel parcel);
+void addParcelToHashTable(HashTable* hashTable, Parcel parcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -287,4 +288,11 @@ TreeNode* insertTreeNode(TreeNode* rootNode, Parcel parcel)
         rootNode->right = insertTreeNode(rootNode->right, parcel);
     }
     return rootNode;
+}
+
+// Inserts a parcel into the hash table
+void addParcelToHashTable(HashTable* hashTable, Parcel parcel)
+{
+    unsigned long index = hashFunction(parcel.destination);
+    hashTable->buckets[index] = insertTreeNode(hashTable->buckets[index], parcel);
 }
