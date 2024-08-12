@@ -59,6 +59,7 @@ void displayParcelInfo(Parcel* parcel);
 Parcel* findParcelByWeight(TreeNode* rootNode, int weight);
 void releaseHashTableMemory(HashTable* hashTable);
 void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxParcel);
+void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, Parcel** heaviestParcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -203,4 +204,22 @@ void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxPar
     findMinAndMaxParcel(rootNode->left, minParcel, maxParcel);
     findMinAndMaxParcel(rootNode->right, minParcel, maxParcel);
 
+}
+
+// Finds the lightest and heaviest parcels in a binary search tree
+void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, Parcel** heaviestParcel)
+{
+    if (rootNode == NULL) return;
+
+    if (*lightestParcel == NULL || rootNode->parcel.weight < (*lightestParcel)->weight)
+    {
+        *lightestParcel = &(rootNode->parcel);
+    }
+    if (*heaviestParcel == NULL || rootNode->parcel.weight > (*heaviestParcel)->weight)
+    {
+        *heaviestParcel = &(rootNode->parcel);
+    }
+
+    findLightestAndHeaviestParcel(rootNode->left, lightestParcel, heaviestParcel);
+    findLightestAndHeaviestParcel(rootNode->right, lightestParcel, heaviestParcel);
 }
