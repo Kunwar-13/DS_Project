@@ -55,6 +55,7 @@ HashTable * initializeHashTable();
 void loadParcelsFromFile(HashTable* hashTable, const char* filename);
 void showParcelsForCountry(HashTable* hashTable, char* country);
 void showTotalLoadAndValuation(HashTable* hashTable, char* country);
+void displayParcelInfo(Parcel* parcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -144,4 +145,17 @@ void showTotalLoadAndValuation(HashTable* hashTable, char* country)
     printf("Total load for %s: %d grams\n", country, totalWeight);
     printf("Total valuation for %s: $%.2f\n", country, totalValuation);
 
+}
+
+// Displays the details of a parcel
+void displayParcelInfo(Parcel* parcel)
+{
+    if (parcel)
+    {
+        printf("Destination: %s, Weight: %d grams, Valuation: $%.2f\n", parcel->destination, parcel->weight, parcel->valuation);
+    }
+    else
+    {
+        printf("Parcel not found.\n");
+    }
 }
