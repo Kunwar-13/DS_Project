@@ -57,6 +57,8 @@ void showParcelsForCountry(HashTable* hashTable, char* country);
 void showTotalLoadAndValuation(HashTable* hashTable, char* country);
 void displayParcelInfo(Parcel* parcel);
 
+Parcel* findParcelByWeight(TreeNode* rootNode, int weight);
+
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
 {
@@ -158,4 +160,17 @@ void displayParcelInfo(Parcel* parcel)
     {
         printf("Parcel not found.\n");
     }
+}
+
+// Searches for a parcel by weight in a binary search tree
+
+Parcel* findParcelByWeight(TreeNode * rootNode, int weight)
+{
+    if (rootNode == NULL) return NULL;
+    if (rootNode->parcel.weight == weight) return &(rootNode->parcel);
+
+    if (weight < rootNode->parcel.weight) return findParcelByWeight(rootNode->left, weight);
+
+    return findParcelByWeight(rootNode->right, weight);
+
 }
