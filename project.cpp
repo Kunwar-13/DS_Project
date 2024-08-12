@@ -54,7 +54,7 @@ struct HashTable
 HashTable * initializeHashTable();
 void loadParcelsFromFile(HashTable* hashTable, const char* filename);
 void showParcelsForCountry(HashTable* hashTable, char* country);
-
+void showTotalLoadAndValuation(HashTable* hashTable, char* country);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -123,4 +123,25 @@ void showParcelsForCountry(HashTable* hashTable, char* country)
     }
     printf("Parcels for %s:\n", country);
     traverseInOrder(rootNode);
+}
+
+// Displays the total load and valuation for a given country
+void showTotalLoadAndValuation(HashTable* hashTable, char* country)
+{
+    unsigned long index = hashFunction(country);
+    TreeNode* rootNode = hashTable->buckets[index];
+
+    if (rootNode == NULL)
+    {
+        printf("No parcels found for %s.\n", country);
+        return;
+    }
+    int totalWeight = 0;
+    float totalValuation = 0.0;
+
+    calculateTotal(rootNode, &totalWeight, &totalValuation);
+
+    printf("Total load for %s: %d grams\n", country, totalWeight);
+    printf("Total valuation for %s: $%.2f\n", country, totalValuation);
+
 }
