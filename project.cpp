@@ -322,3 +322,102 @@ void releaseTreeMemory(TreeNode* rootNode)
         free(rootNode);
     }
 }
+
+// Main function: handles user interaction
+int main()
+{
+    HashTable* parcelHashTable = initializeHashTable();
+
+    loadParcelsFromFile(parcelHashTable, "couries.txt");
+
+    int choice;
+    char inputCountry[100];
+    int inputWeight;
+
+    while (1)
+    {
+       printf("\nMenu List:\n");
+       printf("1. Enter country name and display all parcels\n");
+        printf("2. Enter country and weight pair\n");
+       printf("3. Display total parcel load and valuation for the country\n");
+        printf("4. Display cheapest and most expensive parcels for the country\n");
+       printf("5. Display lightest and heaviest parcels for the country\n");
+       printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1)
+        {
+            printf("Enter country name: ");
+            scanf("%99s", inputCountry);
+
+            showParcelsForCountry(parcelHashTable, inputCountry);
+        }
+
+        else if (choice == 2)
+        {
+            printf("Enter country name: ");
+            scanf("%99s", inputCountry);
+
+            printf("Enter weight: ");
+
+            scanf("%d", &inputWeight);
+            displayParcelInfo(findParcelByWeight(parcelHashTable->buckets[hashFunction(inputCountry)], inputWeight));
+        }
+        else if (choice == 3)
+        {
+            printf("Enter country name: ");
+            scanf("%99s", inputCountry);
+
+            showTotalLoadAndValuation(parcelHashTable, inputCountry);
+
+        }
+        else if (choice == 4)
+        {
+            printf("Enter country name: ");
+            scanf("%99s", inputCountry);
+            Parcel* minParcel = NULL;
+
+            Parcel* maxParcel = NULL;
+            findMinAndMaxParcel(parcelHashTable->buckets[hashFunction(inputCountry)], &minParcel, &maxParcel);
+            printf("Cheapest parcel for %s:\n", inputCountry);
+            displayParcelInfo(minParcel);
+
+            printf("Most expensive parcel for %s:\n", inputCountry);
+            displayParcelInfo(maxParcel);
+
+        }
+
+        else if (choice == 5)
+        {
+            printf("Enter country name: ");
+
+            scanf("%99s", inputCountry);
+            Parcel* lightestParcel = NULL;
+            Parcel* heaviestParcel = NULL;
+
+            findLightestAndHeaviestParcel(parcelHashTable->buckets[hashFunction(inputCountry)], &lightestParcel, &heaviestParcel);
+            printf("Lightest parcel for %s:\n", inputCountry);
+            displayParcelInfo(lightestParcel);
+
+            printf("Heaviest parcel for %s:\n", inputCountry);
+            displayParcelInfo(heaviestParcel);
+        }
+
+        else if (choice == 6)
+        {
+            printf("\nExiting program..... \n\nThank you for choosing Kridhay Makwana's and Ayushpreet's Program\n");
+
+            releaseHashTableMemory(parcelHashTable);
+
+            break;
+        }
+        else
+        {
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+
+    return 0;
+}
