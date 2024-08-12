@@ -65,6 +65,8 @@ unsigned long hashFunction(char* str);
 TreeNode* createNewTreeNode(Parcel parcel);
 TreeNode* insertTreeNode(TreeNode* rootNode, Parcel parcel);
 void addParcelToHashTable(HashTable* hashTable, Parcel parcel);
+void traverseInOrder(TreeNode* rootNode);
+void releaseTreeMemory(TreeNode* rootNode);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -295,4 +297,28 @@ void addParcelToHashTable(HashTable* hashTable, Parcel parcel)
 {
     unsigned long index = hashFunction(parcel.destination);
     hashTable->buckets[index] = insertTreeNode(hashTable->buckets[index], parcel);
+}
+
+// Performs an in-order traversal of a binary search tree and prints parcel details
+void traverseInOrder(TreeNode* rootNode)
+{
+    if (rootNode != NULL)
+    {
+        traverseInOrder(rootNode->left);
+        printf("Destination: %s, Weight: %d grams, Valuation: $%.2f\n", rootNode->parcel.destination, rootNode->parcel.weight, rootNode->parcel.valuation);
+        traverseInOrder(rootNode->right);
+    }
+}
+
+// Frees the memory allocated for a binary search tree
+void releaseTreeMemory(TreeNode* rootNode)
+{
+    if (rootNode != NULL)
+    {
+        releaseTreeMemory(rootNode->left);
+        releaseTreeMemory(rootNode->right);
+
+        free(rootNode->parcel.destination);
+        free(rootNode);
+    }
 }
