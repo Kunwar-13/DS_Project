@@ -63,6 +63,7 @@ void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, 
 void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuation);
 unsigned long hashFunction(char* str);
 TreeNode* createNewTreeNode(Parcel parcel);
+TreeNode* insertTreeNode(TreeNode* rootNode, Parcel parcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -268,4 +269,22 @@ TreeNode* createNewTreeNode(Parcel parcel)
 
     return newNode;
 
+}
+
+// Inserts a new node with the given parcel data into a binary search tree
+TreeNode* insertTreeNode(TreeNode* rootNode, Parcel parcel)
+{
+    if (rootNode == NULL)
+    {
+        return createNewTreeNode(parcel);
+    }
+    if (parcel.weight < rootNode->parcel.weight)
+    {
+        rootNode->left = insertTreeNode(rootNode->left, parcel);
+    }
+    else
+    {
+        rootNode->right = insertTreeNode(rootNode->right, parcel);
+    }
+    return rootNode;
 }
