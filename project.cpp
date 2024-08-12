@@ -42,11 +42,36 @@ struct TreeNode
 };
 
 
-
-
 // Struct definition for the hash table
 struct HashTable
 {
     TreeNode* buckets[hashtableSize]; // Array of pointers to the root nodes of BSTs
 
 };
+
+
+// Function prototypes
+HashTable * initializeHashTable();
+
+
+// Allocates memory for the hash table and initializes all bucket pointers to NULL */
+HashTable* initializeHashTable()
+{
+
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+
+    if (!hashTable){
+
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(1);
+    
+    }
+    for (int i = 0; i < hashtableSize; i++) {
+
+        hashTable->buckets[i] = NULL;
+    
+    }
+    
+    return hashTable;
+
+}
