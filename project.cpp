@@ -62,7 +62,7 @@ void findMinAndMaxParcel(TreeNode* rootNode, Parcel** minParcel, Parcel** maxPar
 void findLightestAndHeaviestParcel(TreeNode* rootNode, Parcel** lightestParcel, Parcel** heaviestParcel);
 void calculateTotal(TreeNode* currentNode, int* totalWeight, float* totalValuation);
 unsigned long hashFunction(char* str);
-
+TreeNode* createNewTreeNode(Parcel parcel);
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -250,4 +250,22 @@ unsigned long hashFunction(char* str)
         hash = ((hash << 5) + hash) + c; // hash * 33 + c
 
     return hash % hashtableSize;
+}
+
+// Creates and initializes a new tree node with the given parcel data
+TreeNode* createNewTreeNode(Parcel parcel)
+{
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+
+    if (!newNode)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(1);
+    }
+    newNode->parcel = parcel;
+    newNode->left = NULL;
+    newNode->right = NULL;
+
+    return newNode;
+
 }
