@@ -53,6 +53,7 @@ struct HashTable
 // Function prototypes
 HashTable * initializeHashTable();
 void loadParcelsFromFile(HashTable* hashTable, const char* filename);
+void showParcelsForCountry(HashTable* hashTable, char* country);
 
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
@@ -106,4 +107,20 @@ void loadParcelsFromFile(HashTable* hashTable, const char* filename)
         addParcelToHashTable(hashTable, parcel);
     }
     fclose(file);
+}
+
+
+// Displays all parcels for a given country
+void showParcelsForCountry(HashTable* hashTable, char* country)
+{
+    unsigned long index = hashFunction(country);
+    TreeNode* rootNode = hashTable->buckets[index];
+
+    if (rootNode == NULL)
+    {
+        printf("No parcels found for %s.\n", country);
+        return;
+    }
+    printf("Parcels for %s:\n", country);
+    traverseInOrder(rootNode);
 }
