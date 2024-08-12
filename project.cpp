@@ -56,8 +56,9 @@ void loadParcelsFromFile(HashTable* hashTable, const char* filename);
 void showParcelsForCountry(HashTable* hashTable, char* country);
 void showTotalLoadAndValuation(HashTable* hashTable, char* country);
 void displayParcelInfo(Parcel* parcel);
-
 Parcel* findParcelByWeight(TreeNode* rootNode, int weight);
+void releaseHashTableMemory(HashTable* hashTable);
+
 
 // Allocates memory for the hash table and initializes all bucket pointers to NULL */
 HashTable* initializeHashTable()
@@ -162,8 +163,8 @@ void displayParcelInfo(Parcel* parcel)
     }
 }
 
-// Searches for a parcel by weight in a binary search tree
 
+// Searches for a parcel by weight in a binary search tree
 Parcel* findParcelByWeight(TreeNode * rootNode, int weight)
 {
     if (rootNode == NULL) return NULL;
@@ -173,4 +174,14 @@ Parcel* findParcelByWeight(TreeNode * rootNode, int weight)
 
     return findParcelByWeight(rootNode->right, weight);
 
+}
+
+// Frees the memory allocated for a hash table
+void releaseHashTableMemory(HashTable* hashTable)
+{
+    for (int i = 0; i < hashtableSize; i++)
+    {
+        releaseTreeMemory(hashTable->buckets[i]);
+    }
+    free(hashTable);
 }
